@@ -30,17 +30,18 @@
 
 		#legend {
 	        z-index: 11;
-		    padding: 2px 4px;
-		    border: 1px solid grey;
+		    	padding: 2px 4px;
+		    	border: 1px solid grey;
 	        position: absolute;
-		    bottom: 0%;
-		    height: 30%;
-            overflow: scroll;
-            width:13%;
-            right:0%;
-		    background-color: #ffffff;
-		    font-weight: bold;
-	    }
+		    	bottom: 0%;
+		    	height: 30%;
+          overflow: scroll;
+          width:13%;
+          right:0%;
+		    	background-color: #ffffff;
+		    	font-weight: bold;
+					float;
+	    	}
 
         #select_feature {
             position: absolute;
@@ -148,7 +149,7 @@
     </style>
 
 
-    <title>WFS Transaction OpenLayers</title>
+    <title>WFS Transaction by OpenLayers</title>
 </head>
 
 <body>
@@ -171,7 +172,7 @@
     </div>
     <div id="info">&nbsp;</div>
 
-   <script type = "text/javascript" >
+<script type = "text/javascript" >
 
 var map, geojson, layer_name, layerSwitcher, featureOverlay, highlightStyle, modify, draw_add, snap_edit, url, overlays, pop, state_name, feature, myFeature, content1;
 var del_fts = new Array();
@@ -180,7 +181,7 @@ var content = document.getElementById('popup-content');
 var closer = document.getElementById('popup-closer');
 
 // Declare Host url
-var hostName = 'http://127.0.0.1:8088';
+var GeoServerHost = 'http://127.0.0.1:8088';
 
 /*
 To declare the projection code such as 'EPSG:32647'
@@ -295,7 +296,7 @@ var overlays = new ol.layer.Group({
             title: 'Amphoe',
             // extent: [-180, -90, -180, 90],
             source: new ol.source.ImageWMS({
-                url: hostName + '/geoserver/wms',
+                url: GeoServerHost + '/geoserver/wms',
                 params: {
                     'LAYERS': 'thgeom:amphoe'
                 },
@@ -325,7 +326,7 @@ var shp = new ol.layer.Image({
 		  title: 'Shape',
          // extent: [-180, -90, -180, 90],
           source: new ol.source.ImageWMS({
-            url: hostName + '/geoserver/wms',
+            url: GeoServerHost + '/geoserver/wms',
             params: {'LAYERS': wfslay},
             ratio: 1,
             serverType: 'geoserver'
@@ -397,7 +398,7 @@ function legend () {
 		var ar = [];
 		var i;
 		for (i = 0; i < no_layers; i++) {
-		ar.push(hostName + "/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+overlays.getLayers().item(i).get('title'));
+		ar.push(GeoServerHost + "/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER="+overlays.getLayers().item(i).get('title'));
 		//alert(overlays.getLayers().item(i).get('title'));
 		}
 		for (i = 0; i < no_layers; i++) {
@@ -420,13 +421,13 @@ function legend () {
 
 	 legend();
 
-url = hostName + "/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+ wfslay + "&outputFormat=application/json&srsName=EPSG:4326"
+url = GeoServerHost + "/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" + wfslay + "&outputFormat=application/json&srsName=EPSG:4326"
 //Have to define the Display projection *****
 
-//var url = "http://127.0.0.1:8088/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+value_layer+"&CQL_FILTER="+value_attribute+"+"+value_operator+"+'"+value_txt+"'&outputFormat=application/json"
-//var url = "http://127.0.0.1:8088/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=india:india_state_boundary&CQL_FILTER=gid<='20'&outputFormat=application/json"
-//var url = "http://127.0.0.1:8088/geoserver/wfs?request=GetFeature&version=1.0.0&typeName=india:india_state_boundary&&outputFormat=json&cql_filter=INTERSECTS(the_geom,"+wkt+")";
-//var url = "http://127.0.0.1:8088/geoserver/wfs?request=GetFeature&version=1.0.0&typeName=india:india_state_boundary&outputFormat=json&&BBOX="+cur_extent+",EPSG:4326";
+//var url = GeoServerHost + "/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName="+value_layer+"&CQL_FILTER="+value_attribute+"+"+value_operator+"+'"+value_txt+"'&outputFormat=application/json"
+//var url = GeoServerHost + "/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=india:india_state_boundary&CQL_FILTER=gid<='20'&outputFormat=application/json"
+//var url = GeoServerHost + "/geoserver/wfs?request=GetFeature&version=1.0.0&typeName=india:india_state_boundary&&outputFormat=json&cql_filter=INTERSECTS(the_geom,"+wkt+")";
+//var url = GeoServerHost + "/geoserver/wfs?request=GetFeature&version=1.0.0&typeName=india:india_state_boundary&outputFormat=json&&BBOX="+cur_extent+",EPSG:4326";
 
 var style = new ol.style.Style({
     fill: new ol.style.Fill({
@@ -532,17 +533,17 @@ function toggle_editing() {
 
 	else if (color == 'rgb(255, 127, 80)') {
 
-	    document.getElementById("toggle_editing").style.backgroundColor = '';
+	      document.getElementById("toggle_editing").style.backgroundColor = '';
         document.getElementById("select_feature").style.backgroundColor = '';
         document.getElementById("create_feature").style.backgroundColor = '';
         document.getElementById("modify_feature").style.backgroundColor = '';
 
-	    document.getElementById("select_feature").disabled = true;
+	      document.getElementById("select_feature").disabled = true;
         document.getElementById("create_feature").disabled = true;
         document.getElementById("modify_feature").disabled = true;
-		document.getElementById("delete_feature").disabled = true;
+				document.getElementById("delete_feature").disabled = true;
 
-		document.getElementById("get_info").disabled = false;
+				document.getElementById("get_info").disabled = false;
 
 		 if (modify) {
             map.removeInteraction(modify);
@@ -805,7 +806,7 @@ function save_created() {
     );
 	alert(gml3);
 
-    var url1 = hostName + '/geoserver/wfs';
+    var url1 = GeoServerHost + '/geoserver/wfs';
     var method = 'POST';
     var postData1 =
         '<wfs:Transaction service="WFS" version="1.1.0"\n' +
@@ -831,7 +832,7 @@ function save_created() {
 		//req1.open("POST", url1, false);
 		//req1.open("POST", url1, false, 'username', 'password');
 		//req1.responseType = 'blob';
-		//req1.setRequestHeader('User-Agent', 'XMLHTTP/1.0');
+		req1.setRequestHeader('User-Agent', 'XMLHTTP/1.0');
 		req1.setRequestHeader('Content-type', 'text/xml');
 		//req1.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 		//req1.setRequestHeader('auth', 'token');
@@ -855,14 +856,14 @@ function save_created() {
     if (req1.readyState == 4) return;
     req1.send(postData1);
     alert(req1.responseText);
-		if (req1.responseText.includes('NoApplicableCode')) {
-			alert('Unauthorized, Feature can not be saved.');
+		if (req1.responseText.includes('<wfs:totalInserted>1</wfs:totalInserted>')) {
+			alert('Feature created successfully');
 		} else {
-			alert('Feature saved successfully');
+			alert('Unauthorized, Feature can not be created.');
 		}
 
     geojson.getSource().refresh();
-	shp.getSource().refresh();
+		shp.getSource().refresh();
     overlay.setPosition(undefined);
     closer.blur();
     featureOverlay.getSource().clear();
@@ -922,14 +923,14 @@ function save_mod_features() {
 
     var fid_feat_mod = feat_mod[0].getId();
 
-	//var transform = new ol.proj.transform();
+		//var transform = new ol.proj.transform();
 
-    var coords0 = feat_mod[0].getGeometry();
-		var coords = coords0;
-	//var coords = new ol.proj.transform(coords0.getCoordinates(), 'EPSG:4326', 'EPSG:32647');
+    var coords = feat_mod[0].getGeometry();
+		//var coords = coords0;
+		//var coords = new ol.proj.transform(coords0.getCoordinates(), 'EPSG:4326', 'EPSG:32647');
 
     //alert(coords.toString());
-    var format = new ol.format.GML3({
+    var format = new ol.format.GML({
         //featureNS: 'http://www.census.gov',
         //  featurePrefix: 'tiger',
         // featureType: 'tiger:tiger_roads',
@@ -945,7 +946,7 @@ function save_mod_features() {
         rightHanded: true
     });
     //alert(fid_feat_att);
-    var url1 = hostName + '/geoserver/wfs';
+    var url1 = GeoServerHost + '/geoserver/wfs';
     var method = 'POST';
     var postData =
         '<wfs:Transaction service="WFS" version="1.1.0"\n' +
@@ -955,7 +956,7 @@ function save_mod_features() {
         'xmlns:gml="http://www.opengis.net/gml"\n' +
         'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
         'xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/WFS-transaction.xsd">\n' +
-        '<wfs:Update typeName="topp:shape">\n' +
+        '<wfs:Update typeName="' + wfslay + '">\n' +
         '<wfs:Property>\n' +
         '<wfs:Name>the_geom</wfs:Name>\n' +
         '<wfs:Value>\n' +
@@ -1001,13 +1002,13 @@ function save_mod_features() {
 
 		alert(req.responseText);
 		//alert('Feature updated successfully');
-		if (req.responseText.includes('NoApplicableCode')) {
-			alert('Unauthorized, Feature can not be updated.');
-		} else {
+		if (req.responseText.includes('<wfs:totalUpdated>1</wfs:totalUpdated>')) {
 			alert('Feature updated successfully');
+		} else {
+			alert('Unauthorized, Feature can not be updated.');
 		}
     geojson.getSource().refresh();
-	shp.getSource().refresh();
+		shp.getSource().refresh();
     overlay.setPosition(undefined);
     closer.blur();
     featureOverlay.getSource().clear();
@@ -1053,7 +1054,7 @@ function delete_feature() {
                 'xmlns:ogc="http://www.opengis.net/ogc"\n' +
                 'xmlns:wfs="http://www.opengis.net/wfs"\n' +
                 'xmlns:topp="http://www.openplans.org/topp">\n' +
-                '<wfs:Delete typeName="topp:shape">\n' +
+                '<wfs:Delete typeName="' + wfslay + '">\n' +
                 '<ogc:Filter>\n' +
                 '<ogc:FeatureId fid="' + fid_del_feat + '"/>\n' +
                 '</ogc:Filter>\n' +
@@ -1061,7 +1062,7 @@ function delete_feature() {
                 '</wfs:Transaction>\n';
 
             var req_del = new XMLHttpRequest();
-            req_del.open("POST", hostName + '/geoserver/wfs', false);
+            req_del.open("POST", GeoServerHost + '/geoserver/wfs', false);
             //req_del.setRequestHeader('User-Agent', 'XMLHTTP/2.1');
             req_del.setRequestHeader('Content-type', 'text/xml');
             req_del.onreadystatechange = function() {
@@ -1080,10 +1081,10 @@ function delete_feature() {
             req_del.send(postData_del);
 						alert(req_del.responseText);
             //alert('Feature deleted Successfully');
-						if (req_del.responseText.includes('is read-only')) {
-							alert('Unauthorized, Feature can not be deleted.');
-						} else {
+						if (req_del.responseText.includes('<wfs:Status> <wfs:SUCCESS/> </wfs:Status>')) {
 							alert('Feature deleted successfully');
+						} else {
+							alert('Unauthorized, Feature can not be deleted.');
 							}
       			geojson.getSource().refresh();
 						shp.getSource().refresh();      // Refresh WMS Shape
@@ -1169,7 +1170,7 @@ function getinfo(evt) {
             layer_title[i] = overlays.getLayers().item(i).get('title');
             // alert(layer_title[i]);
             wmsSource[i] = new ol.source.ImageWMS({
-                url: hostName + '/geoserver/wms',
+                url: GeoServerHost + '/geoserver/wms',
                 params: {
                     'LAYERS': layer_title[i]
                 },
