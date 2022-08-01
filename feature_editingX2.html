@@ -777,8 +777,8 @@ function save_created() {
     var coords0 = myFeature.getGeometry();
 		//alert(coords0.getCoordinates());
     //var coords = new ol.proj.transform(coords0.getCoordinates(), 'EPSG:4326', 'EPSG:32647');
-	//var coords = proj4('EPSG:4326', 'EPSG:32647', coords0.getCoordinates());
-	// alert(coords.toString());
+		//var coords = proj4('EPSG:4326', 'EPSG:32647', coords0.getCoordinates());
+		// alert(coords.toString());
 
     var format = new ol.format.GML({
         //featureNS: 'http://www.census.gov',
@@ -804,7 +804,7 @@ function save_created() {
 					rightHanded: true
         }
     );
-	alert(gml3);
+	console.log(gml3);
 
     var url1 = GeoServerHost + '/geoserver/wfs';
     var method = 'POST';
@@ -832,7 +832,7 @@ function save_created() {
 		//req1.open("POST", url1, false);
 		//req1.open("POST", url1, false, 'username', 'password');
 		//req1.responseType = 'blob';
-		req1.setRequestHeader('User-Agent', 'XMLHTTP/1.0');
+		//req1.setRequestHeader('User-Agent', 'XMLHTTP/1.0');
 		req1.setRequestHeader('Content-type', 'text/xml');
 		//req1.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 		//req1.setRequestHeader('auth', 'token');
@@ -855,11 +855,13 @@ function save_created() {
     }
     if (req1.readyState == 4) return;
     req1.send(postData1);
-    alert(req1.responseText);
+    console.log(req1.responseText);
 		if (req1.responseText.includes('<wfs:totalInserted>1</wfs:totalInserted>')) {
 			alert('Feature created successfully');
+		} else if (req1.responseText.includes('<ows:Exception exceptionCode="NoApplicableCode">')) {
+							alert('Unauthorized, Feature can not be created.');
 		} else {
-			alert('Unauthorized, Feature can not be created.');
+			alert('Any error, Feature can not be created.');
 		}
 
     geojson.getSource().refresh();
@@ -1000,13 +1002,16 @@ function save_mod_features() {
     if (req.readyState == 4) return;
     req.send(postData);
 
-		alert(req.responseText);
+		console.log(req.responseText);
 		//alert('Feature updated successfully');
 		if (req.responseText.includes('<wfs:totalUpdated>1</wfs:totalUpdated>')) {
 			alert('Feature updated successfully');
+		} else if (req.responseText.includes('<ows:Exception exceptionCode="NoApplicableCode">')) {
+							alert('Unauthorized, Feature can not be updated.');
 		} else {
-			alert('Unauthorized, Feature can not be updated.');
+			alert('Any error, Feature can not be updated.');
 		}
+
     geojson.getSource().refresh();
 		shp.getSource().refresh();
     overlay.setPosition(undefined);
@@ -1079,8 +1084,8 @@ function delete_feature() {
             }
             if (req_del.readyState == 4) return;
             req_del.send(postData_del);
-						alert(req_del.responseText);
-            //alert('Feature deleted Successfully');
+						console.log(req_del.responseText);
+
 						if (req_del.responseText.includes('<wfs:Status> <wfs:SUCCESS/> </wfs:Status>')) {
 							alert('Feature deleted successfully');
 						} else {
